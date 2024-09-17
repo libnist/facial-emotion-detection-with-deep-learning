@@ -1,5 +1,10 @@
 from pathlib import Path
 
+from torch.utils.data import Dataset
+from torchvision import transforms
+
+from PIL import Image
+
 def get_paths(path):
     path = Path(path)
     data_paths = []
@@ -12,4 +17,30 @@ def get_paths(path):
             targets[root.name] = i
             i += 1
             
-    return data_paths, targets    
+    return data_paths, targets
+
+
+class ImageDatasetFromDirectory(Dataset):
+    def __init__(self, path):
+        
+        self.image_paths, self._targets = get_paths(path)
+    
+    @property
+    def targets(self):
+        return self._targets
+    
+    def __len__(self):
+        return len(self.image_paths)
+    
+    def __getitem__(self, idx):
+        transform = transforms.Compose(
+            [transforms.Grayscale(1),
+             transforms.Resize(size=(48, 48)),
+             transforms.ToTensor()]
+        )
+        
+        image_path, image_lable = self.image_paths[idx]
+        
+        img = Image.open(image_path)
+        
+        return transform(img), image_lable
