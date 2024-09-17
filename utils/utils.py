@@ -5,6 +5,9 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 from PIL import Image
+import matplotlib.pyplot as plt
+
+from random import choices
 
 def get_paths(path):
     path = Path(path)
@@ -15,7 +18,7 @@ def get_paths(path):
         if len(files) > 0:
             paths = [(root/file, i) for file in files]
             data_paths += paths
-            targets[root.name] = i
+            targets[i] = root.name
             i += 1
             
     return data_paths, targets
@@ -45,3 +48,19 @@ class ImageDatasetFromDirectory(Dataset):
         img = Image.open(image_path)
         
         return transform(img), torch.tensor(image_lable)
+    
+def draw_images(path, figsize=(10, 10)):
+    
+    plt.figure(figsize=figsize)
+    
+    paths, targets = get_paths(path)
+    
+    samples = choices(paths, k=9)
+
+    for i, (img, tgt) in enumerate(samples):
+
+        plt.subplot(3, 3, i+1)
+
+        plt.imshow(Image.open(img), cmap="gray")
+        plt.title(targets[tgt].capitalize())
+        plt.axis("off")
