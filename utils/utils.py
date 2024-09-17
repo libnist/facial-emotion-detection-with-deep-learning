@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 
@@ -43,4 +44,4 @@ class ImageDatasetFromDirectory(Dataset):
         
         img = Image.open(image_path)
         
-        return transform(img), image_lable
+        return transform(img), torch.tensor(image_lable)
