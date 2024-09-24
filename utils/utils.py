@@ -9,12 +9,15 @@ import matplotlib.pyplot as plt
 
 from random import choices
 
+import os
+
 def get_paths(path):
     path = Path(path)
     data_paths = []
     targets = {}
     i = 0
-    for root, dirs, files in path.walk():
+    for root, dirs, files in os.walk(path):
+        root = Path(root)
         if len(files) > 0:
             paths = [(root/file, i) for file in files]
             data_paths += paths
