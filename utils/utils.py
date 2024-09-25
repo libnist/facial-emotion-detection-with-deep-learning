@@ -67,3 +67,7 @@ def draw_images(path, figsize=(10, 10)):
         plt.imshow(Image.open(img), cmap="gray")
         plt.title(targets[tgt].capitalize())
         plt.axis("off")
+        
+def accuracy(pred, target):
+    assert len(pred) == len(target), "Pred and Target dont have same shape"
+    return (pred == target).sum()/len(pred)
