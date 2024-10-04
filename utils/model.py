@@ -39,4 +39,4 @@ class Model(nn.Module):
         
         concatenated = torch.concat([block1_output, block2_output], -1)
         
-        return F.softmax(self.linear(concatenated), -1)
+        return self.linear(concatenated)
