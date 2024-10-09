@@ -42,6 +42,8 @@ class ImageDatasetFromDirectory(Dataset):
     def __getitem__(self, idx):
         transform = transforms.Compose(
             [transforms.Grayscale(1),
+             transforms.RandomHorizontalFlip(p=0.5),
+             transforms.RandomRotation(90),
              transforms.Resize(size=(48, 48)),
              transforms.ToTensor()]
         )
